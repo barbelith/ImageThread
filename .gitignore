@@ -17,6 +17,7 @@
 /bin/*
 !bin/console
 !bin/symfony_requirements
+!bin/run-tests.sh
 !var/SymfonyRequirements.php
 /vendor/
 
@@ -40,3 +41,5 @@
 # IntelliJ
 .idea/
 *.iml
+
+web/images/*

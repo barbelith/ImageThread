@@ -1,0 +1,10 @@
+services:
+  imagethread.image_manager:
+    class: AppBundle\Manager\ImageManager
+    arguments:
+      - "%web_dir%"
+      - "%images_dir%"
+  imagethread.form.type.post:
+    class: AppBundle\Form\Type\PostType
+    tags:
+      - { name: form.type }
