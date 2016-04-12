@@ -16,8 +16,8 @@ class PostType extends AbstractType
     {
         parent::buildForm($builder, $options);
 
-        $builder->add('title', TextType::class, array('label' => 'image_title'))
+        $builder->add('title', TextType::class, array('label' => 'image_title', 'attr' => array('class' => 'u-full-width')))
           ->add('image_upload', FileType::class, array('label' => 'select_image'))
-          ->add('save', SubmitType::class, array('label' => 'create_post'));
+          ->add('save', SubmitType::class, array('label' => 'create_post', 'attr' => array('class' => 'button-primary')));
     }
 }

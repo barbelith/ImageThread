@@ -40,7 +40,7 @@ class PostController extends Controller
                     );
 
                     $post->setImage($imageName);
-                    
+
                     $this->getDoctrine()->getManager()->persist($post);
                     $this->getDoctrine()->getManager()->flush();
 
@@ -54,7 +54,8 @@ class PostController extends Controller
         }
 
         return [
-          'form' => $form->createView()
+          'form' => $form->createView(),
+          'extends_base' => !$this->container->get('request_stack')->getParentRequest()
         ];
     }
 }

@@ -1,5 +1,13 @@
 {% extends 'base.html.twig' %}
 
 {% block body %}
-    {{ render(controller('AppBundle:Post:create')) }}
+    <section class="header">
+        <span class="u-pull-left">{{ 'posts_number'|trans({'%posts%': posts_count() }) }}</span>
+        <span class="u-pull-right">{{ 'views_number'|trans({'%views%': views_count() }) }}</span>
+        <a href="#" class="export_data">{{ 'export'|trans }}</a>
+    </section>
+
+    <div class="row">
+        {{ render(controller('AppBundle:Post:create')) }}
+    </div>
 {% endblock %}

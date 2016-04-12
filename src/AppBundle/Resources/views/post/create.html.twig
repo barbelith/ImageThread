@@ -1,8 +1,10 @@
-{% extends 'base.html.twig' %}
+{% extends extends_base ? 'base.html.twig' : 'clean.html.twig' %}
 
 {% block body %}
-    {{ form_start(form) }}
-    {{ form_widget(form) }}
-    {{ form_end(form) }}
+    <div class="row">
+        {{ form_start(form) }}
+        {{ form_widget(form) }}
+        {{ form_end(form) }}
+    </div>
 {% endblock %}
 

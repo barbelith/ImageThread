@@ -4,3 +4,7 @@ select_image: Select an image
 create_post: Create a post
 post_created_successfully: The post was created successfully
 post_create_error: The post could not be created
+image_thread: Image Thread
+posts_number: 'Posts: %posts%'
+export: Export
+views_number: 'Views: %views%'
