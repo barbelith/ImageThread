@@ -89,4 +89,40 @@ class PostControllerTest extends WebTestCase
           $postRepository->createQueryBuilder('u')->select('count(u.id)')->getQuery()->getSingleScalarResult()
         );
     }
+
+    public function testListLoaded()
+    {
+        $client = static::createClient();
+
+        $this->generateSchema($client->getContainer());
+
+        $crawler = $client->request('GET', '/post/list');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotNull($crawler->filter('ul.posts')->count());
+    }
+
+    public function testListWithPosts()
+    {
+        $client = static::createClient();
+
+        $this->generateSchema($client->getContainer());
+
+        $em = $this->getDoctrine($client->getContainer());
+
+        for ($i = 1; $i <= 5; $i++) {
+            $post = new Post();
+            $post->setTitle('Post #'.$i);
+            $post->setImage($i.'.jpg');
+            $em->persist($post);
+        }
+
+        $em->flush();
+
+        $crawler = $client->request('GET', '/post/list');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotNull($crawler->filter('ul.posts')->count());
+        $this->assertEquals(5, $crawler->filter('ul.posts li.post')->count());
+    }
 }

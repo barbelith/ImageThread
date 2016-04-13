@@ -14,7 +14,7 @@ class ImageManagerTest extends TestCase
     {
         parent::setUp();
         
-        $this->imageManager = new ImageManager('/image_thread_images_test_'.mt_rand(), sys_get_temp_dir());
+        $this->imageManager = new ImageManager(sys_get_temp_dir(), '/image_thread_images_test_'.mt_rand());
     }
 
     protected function tearDown()

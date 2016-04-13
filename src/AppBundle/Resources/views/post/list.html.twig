@@ -1,0 +1,10 @@
+{% extends extends_base ? 'base.html.twig' : 'clean.html.twig' %}
+
+{% block body %}
+    <ul class="posts">
+        {% for post in posts %}
+            {% include '@App/Post/_post.html.twig' %}
+        {% endfor %}
+    </ul>
+{% endblock %}
+

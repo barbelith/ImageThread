@@ -11,7 +11,7 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 {
     protected function generateSchema(ContainerInterface $container)
     {
-        $em = $container->get('doctrine')->getManager();
+        $em = $this->getDoctrine($container);
 
         // Get the metadata of the application to create the schema.
         $metadata = $em->getMetadataFactory()->getAllMetadata();
@@ -24,5 +24,14 @@ class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
         } else {
             throw new SchemaException('No Metadata Classes to process.');
         }
+    }
+
+    /**
+     * @param ContainerInterface $container
+     * @return \Doctrine\Common\Persistence\ObjectManager|object
+     */
+    protected function getDoctrine(ContainerInterface $container)
+    {
+        return $container->get('doctrine')->getManager();
     }
 }

@@ -75,4 +75,9 @@ class ImageManager
     {
         return $this->getImagesPath().DIRECTORY_SEPARATOR.$imageName;
     }
+
+    public function getImageUrl($imageName)
+    {
+        return preg_replace('#/{2,}#', '/', $this->imagesDir.DIRECTORY_SEPARATOR.$imageName);
+    }
 }

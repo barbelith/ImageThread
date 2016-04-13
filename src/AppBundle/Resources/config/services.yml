@@ -8,3 +8,10 @@ services:
     class: AppBundle\Form\Type\PostType
     tags:
       - { name: form.type }
+  app.twig_extension:
+      class: AppBundle\Twig\AppExtension
+      public: false
+      arguments:
+        - '@imagethread.image_manager'
+      tags:
+          - { name: twig.extension }

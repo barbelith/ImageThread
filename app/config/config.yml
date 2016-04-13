@@ -66,10 +66,3 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
-
-services:
-    app.twig_extension:
-        class: AppBundle\Twig\AppExtension
-        public: false
-        tags:
-            - { name: twig.extension }

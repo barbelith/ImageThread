@@ -58,4 +58,23 @@ class PostController extends Controller
           'extends_base' => !$this->container->get('request_stack')->getParentRequest()
         ];
     }
+
+    /**
+     * @param Request $request
+     * @Route("/post/list", name="post_list")
+     * @Template()
+     * @return array
+     */
+    public function listAction(Request $request)
+    {
+        $lastItem = $request->get('last_item', 0);
+        $limit = $request->get('limit', 10);
+
+        $posts = $this->getDoctrine()->getRepository('AppBundle:Post')->getPostsWithOffset($lastItem, $limit);
+        
+        return [
+          'posts' => $posts,
+          'extends_base' => !$this->container->get('request_stack')->getParentRequest()
+        ];
+    }
 }
