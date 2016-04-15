@@ -4,6 +4,7 @@
 namespace Tests\AppBundle\Controller;
 
 use AppBundle\Entity\Post;
+use AppBundle\Repository\PostRepository;
 use AppBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -35,7 +36,7 @@ class PostControllerTest extends WebTestCase
 
         $client->followRedirect();
 
-        $this->assertEquals(1, $client->getContainer()->get('doctrine')->getManager()->getRepository('AppBundle:Post')->createQueryBuilder('u')->select('count(u.id)')->getQuery()->getSingleScalarResult());
+        $this->assertEquals(1, $client->getContainer()->get('doctrine')->getManager()->getRepository('AppBundle:Post')->count());
     }
 
     public function testUploadImageAndTitle()
@@ -55,8 +56,9 @@ class PostControllerTest extends WebTestCase
 
         $client->followRedirect();
 
+        /** @var PostRepository $postRepository */
         $postRepository = $client->getContainer()->get('doctrine')->getManager()->getRepository('AppBundle:Post');
-        $this->assertEquals(1, $postRepository->createQueryBuilder('u')->select('count(u.id)')->getQuery()->getSingleScalarResult());
+        $this->assertEquals(1, $postRepository->count());
 
         /** @var Post $post */
         $post = $postRepository->findOneBy(array());
@@ -86,7 +88,7 @@ class PostControllerTest extends WebTestCase
         $postRepository = $client->getContainer()->get('doctrine')->getManager()->getRepository('AppBundle:Post');
         $this->assertEquals(
           0,
-          $postRepository->createQueryBuilder('u')->select('count(u.id)')->getQuery()->getSingleScalarResult()
+          $postRepository->count()
         );
     }
 

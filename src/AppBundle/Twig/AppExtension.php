@@ -5,19 +5,25 @@ namespace AppBundle\Twig;
 
 
 use AppBundle\Manager\ImageManager;
+use Doctrine\ORM\EntityManager;
 
 class AppExtension extends \Twig_Extension
 {
     /** @var  ImageManager */
     protected $imageManager;
 
+    /** @var EntityManager  */
+    protected $entityManager;
+    
     /**
      * AppExtension constructor.
      * @param ImageManager $imageManager
+     * @param EntityManager $entityManager
      */
-    public function __construct(ImageManager $imageManager)
+    public function __construct(ImageManager $imageManager, EntityManager $entityManager)
     {
         $this->imageManager = $imageManager;
+        $this->entityManager = $entityManager;
     }
 
     public function getFunctions()
@@ -37,12 +43,12 @@ class AppExtension extends \Twig_Extension
 
     public function getPostsCount()
     {
-        return 5;
+        return $this->entityManager->getRepository('AppBundle:Post')->count();
     }
 
     public function getViewsCount()
     {
-        return 2;
+        return $this->entityManager->getRepository('AppBundle:Statistic')->getNumberViews();
     }
     
     public function getImageUrl($imageName)

@@ -2,8 +2,14 @@
    Layout
    ========================================================================== */
 .header {
-    margin-top: 1em;
     margin-bottom: 1em;
+    padding: 1em 0.3em;
+    color: #fff;
+    background-color: #33C3F0;
+}
+
+.header a {
+    color: #fff;
 }
 
 /* ==========================================================================
@@ -32,6 +38,7 @@
 
 .posts li:first-child {
     padding-top: 0;
+    border-top: none;
 }
 
 .posts li:last-child {
@@ -42,4 +49,11 @@
 .posts img {
     display: block;
     margin: 0 auto;
+}
+
+/* ==========================================================================
+   Forms
+   ========================================================================== */
+.form-create {
+    padding: 0 1em;
 }

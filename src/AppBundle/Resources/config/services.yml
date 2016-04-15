@@ -13,5 +13,6 @@ services:
       public: false
       arguments:
         - '@imagethread.image_manager'
+        - '@doctrine.orm.entity_manager'
       tags:
           - { name: twig.extension }

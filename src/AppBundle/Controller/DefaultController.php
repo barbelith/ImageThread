@@ -15,6 +15,8 @@ class DefaultController extends Controller
      */
     public function indexAction(Request $request)
     {
+        $this->getDoctrine()->getManager()->getRepository('AppBundle:Statistic')->addView();
+        
         return $this->render('@App/default/index.html.twig');
     }
 }
