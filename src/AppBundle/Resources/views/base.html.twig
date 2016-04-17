@@ -21,6 +21,7 @@
 
 {% block header %}
     <section class="header">
+        <h1>{{ 'image_thread_header'|trans }}</h1>
         <span class="u-pull-left updatable-item" data-url="{{ path('post_count') }}">{{ 'posts_number'|trans({'%posts%': posts_count() }) }}</span>
         <span class="u-pull-right updatable-item" data-url="{{ path('view_count') }}">{{ 'views_number'|trans({'%views%': views_count() }) }}</span>
         <a href="{{ path('post_export') }}" class="export_data ajax-modal-link">{{ 'export'|trans }}</a>
