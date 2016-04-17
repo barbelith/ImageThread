@@ -9,6 +9,11 @@ use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpKernel\KernelInterface;
 
+/**
+ * Class KernelTestCase
+ * @package AppBundle\Test
+ * @codeCoverageIgnore 
+ */
 class KernelTestCase extends \PHPUnit_Framework_TestCase
 {
     /** @var  KernelInterface */

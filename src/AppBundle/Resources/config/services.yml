@@ -16,3 +16,5 @@ services:
         - '@doctrine.orm.entity_manager'
       tags:
           - { name: twig.extension }
+  imagethread.cache:
+      class: Doctrine\Common\Cache\ApcuCache

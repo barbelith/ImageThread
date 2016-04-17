@@ -3,9 +3,12 @@
 
 namespace Tests\AppBundle\Controller;
 
+use AppBundle\Controller\PostController;
 use AppBundle\Entity\Post;
 use AppBundle\Repository\PostRepository;
 use AppBundle\Test\WebTestCase;
+use Doctrine\ORM\Tools\SchemaTool;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class PostControllerTest extends WebTestCase
@@ -39,6 +42,32 @@ class PostControllerTest extends WebTestCase
         $client->followRedirect();
 
         $this->assertEquals(1, $client->getContainer()->get('doctrine')->getManager()->getRepository('AppBundle:Post')->count());
+    }
+
+    public function testUploadImageWithNoDatabase()
+    {
+        $client = static::createClient();
+
+        $this->generateSchema($client->getContainer());
+
+        $crawler = $client->request('GET', '/post/create');
+
+        $form = $crawler->selectButton('post[save]')->form();
+
+        $em = $this->getDoctrine($client->getContainer());
+        $metadata = $em->getMetadataFactory()->getAllMetadata();
+        $tool = new SchemaTool($em);
+        $tool->dropSchema($metadata);
+
+        $client->submit(
+          $form,
+          array(
+            'post[image_upload]' => new UploadedFile(__DIR__.'/../Util/fixtures/image.png', 'image.png')
+          )
+        );
+
+        $this->assertEquals(302, $client->getResponse()->getStatusCode());
+        $this->assertTrue($client->getContainer()->get('session')->getFlashBag()->has('danger'));
     }
 
     public function testUploadImageAndTitle()
@@ -155,11 +184,14 @@ class PostControllerTest extends WebTestCase
         $this->generateSchema($client->getContainer());
 
         $em = $this->getDoctrine($client->getContainer());
+        $filesystem = new Filesystem();
 
         for ($i = 1; $i <= 5; $i++) {
             $post = new Post();
             $post->setTitle('Post #'.$i);
-            $post->setImage($i.'.jpg');
+            $post->setImage($i.'.png');
+
+            $filesystem->copy(__DIR__.'/../Util/fixtures/image.png', $client->getContainer()->get('imagethread.image_manager')->getImagesPath().DIRECTORY_SEPARATOR.$i.'.png');
             $em->persist($post);
         }
 
@@ -202,4 +234,84 @@ class PostControllerTest extends WebTestCase
         );
     }
 
+    public function testCountWithNoPosts()
+    {
+        $client = static::createClient();
+
+        $client->getContainer()->get('imagethread.cache')->deleteAll();
+        $this->generateSchema($client->getContainer());
+
+        $client->request('GET', '/post/count');
+
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('ok', $response['status']);
+        $this->assertEquals('Posts: 0', $response['content']);
+    }
+
+    public function testCountWithPosts()
+    {
+        $client = static::createClient();
+
+        $client->getContainer()->get('imagethread.cache')->deleteAll();
+        $this->generateSchema($client->getContainer());
+
+        $em = $this->getDoctrine($client->getContainer());
+
+        for ($i = 1; $i <= 5; $i++) {
+            $post = new Post();
+            $post->setTitle('Post #'.$i);
+            $post->setImage($i.'.jpg');
+            $em->persist($post);
+        }
+
+        $em->flush();
+
+        $client->request('GET', '/post/count');
+
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('ok', $response['status']);
+        $this->assertEquals('Posts: 5', $response['content']);
+    }
+
+    public function testCountReturnsCacheValue()
+    {
+        $client = static::createClient();
+
+        $client->getContainer()->get('imagethread.cache')->save(PostController::CACHE_KEY_POST_COUNT, 20);
+
+        $client->request('GET', '/post/count');
+
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('Posts: 20', $response['content']);
+    }
+
+    public function testCreateUpdatesCount()
+    {
+        $client = static::createClient();
+
+        $client->getContainer()->get('imagethread.cache')->deleteAll();
+        $this->generateSchema($client->getContainer());
+
+        $client->request('GET', '/post/count');
+
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('ok', $response['status']);
+        $this->assertEquals('Posts: 0', $response['content']);
+
+        $crawler = $client->request('GET', '/post/create');
+
+        $form = $crawler->selectButton('post[save]')->form();
+
+        $client->submit(
+          $form,
+          array(
+            'post[image_upload]' => new UploadedFile(__DIR__.'/../Util/fixtures/image.png', 'image.png')
+          )
+        );
+
+        $client->request('GET', '/post/count');
+
+        $response = json_decode($client->getResponse()->getContent(), true);
+        $this->assertEquals('Posts: 1', $response['content']);
+    }
 }

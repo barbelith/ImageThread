@@ -26,6 +26,10 @@ class AppExtension extends \Twig_Extension
         $this->entityManager = $entityManager;
     }
 
+    /**
+     * @return array
+     * @codeCoverageIgnore
+     */
     public function getFunctions()
     {
         return array(
@@ -34,6 +38,10 @@ class AppExtension extends \Twig_Extension
         );
     }
 
+    /**
+     * @return array
+     * @codeCoverageIgnore
+     */
     public function getFilters()
     {
         return array(

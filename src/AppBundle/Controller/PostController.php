@@ -15,6 +15,7 @@ use Sensio\Bundle\FrameworkExtraBundle\Configuration\Template;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpFoundation\ResponseHeaderBag;
@@ -23,6 +24,8 @@ use Symfony\Component\HttpFoundation\StreamedResponse;
 
 class PostController extends Controller
 {
+    const CACHE_KEY_POST_COUNT = 'post_count';
+
     /**
      * @param Request $request
      * @Route("/post/create", name="post_create")
@@ -52,6 +55,8 @@ class PostController extends Controller
 
                     $this->getDoctrine()->getManager()->persist($post);
                     $this->getDoctrine()->getManager()->flush();
+
+                    $this->container->get('imagethread.cache')->delete(self::CACHE_KEY_POST_COUNT);
 
                     $this->addFlash('success', $this->get('translator')->trans('post_created_successfully'));
                 } catch (\Exception $e) {
@@ -192,5 +197,28 @@ class PostController extends Controller
         $response->deleteFileAfterSend(true);
 
         return $response;
+    }
+
+    /**
+     * @param Request $request
+     * @Route("/post/count", name="post_count")
+     * @return JsonResponse
+     */
+    public function countAction(Request $request)
+    {
+        $cache = $this->container->get('imagethread.cache');
+
+        if ($cache->contains(self::CACHE_KEY_POST_COUNT)) {
+            $count = $cache->fetch(self::CACHE_KEY_POST_COUNT);
+        } else {
+            $count = $this->getDoctrine()->getRepository('AppBundle:Post')->count();
+
+            $cache->save(self::CACHE_KEY_POST_COUNT, $count);
+        }
+
+        return new JsonResponse(array(
+            'status' => 'ok',
+            'content' => $this->get('translator')->trans('posts_number', array('%posts%' => $count))
+        ));
     }
 }

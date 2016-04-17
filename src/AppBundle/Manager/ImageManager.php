@@ -34,38 +34,6 @@ class ImageManager
         $filesystem->copy($image->getRealPath(), $this->getImagePath($filename));
     }
 
-    /**
-     * @return mixed
-     */
-    public function getImagesDir()
-    {
-        return $this->imagesDir;
-    }
-
-    /**
-     * @param mixed $imagesDir
-     */
-    public function setImagesDir($imagesDir)
-    {
-        $this->imagesDir = $imagesDir;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getWebDir()
-    {
-        return $this->webDir;
-    }
-
-    /**
-     * @param mixed $webDir
-     */
-    public function setWebDir($webDir)
-    {
-        $this->webDir = $webDir;
-    }
-
     public function getImagesPath()
     {
         return preg_replace('#/{2,}#', '/', $this->webDir.DIRECTORY_SEPARATOR.$this->imagesDir);

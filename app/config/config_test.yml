@@ -1,6 +1,9 @@
 imports:
     - { resource: config_dev.yml }
 
+parameters:
+    web_dir: "%kernel.root_dir%/../var/cache/test"
+
 framework:
     test: ~
     session:
@@ -19,3 +22,8 @@ doctrine:
     dbal:
         driver:  pdo_sqlite
         path:    "%kernel.cache_dir%/test.db"
+
+services:
+    imagethread.cache:
+        class: Doctrine\Common\Cache\PhpFileCache
+        arguments: ["%kernel.cache_dir%"]
