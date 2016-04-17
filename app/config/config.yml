@@ -18,7 +18,7 @@ framework:
     form:            ~
     csrf_protection: ~
     validation:      { enable_annotations: true }
-    #serializer:      { enable_annotations: true }
+    serializer:      { enabled: true, enable_annotations: true }
     templating:
         engines: ['twig']
     default_locale:  "%locale%"
@@ -78,3 +78,9 @@ liip_imagine:
             quality: 75
             filters:
                 thumbnail: { size: [1080, 1080], mode: outbound }
+
+assetic:
+    debug:          '%kernel.debug%'
+    use_controller: '%kernel.debug%'
+    filters:
+        cssrewrite: ~

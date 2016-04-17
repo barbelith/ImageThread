@@ -10,9 +10,13 @@
 {% endblock %}
 
 {% block javascripts %}
-    <script type="text/javascript" src="{{ asset('bundles/app/js/jquery/jquery.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/app/js/jquery-modal/jquery.modal.min.js') }}"></script>
-    <script type="text/javascript" src="{{ asset('bundles/app/js/main.js') }}"></script>
+    {% javascripts
+       '@AppBundle/Resources/public/js/jquery/jquery.min.js'
+       '@AppBundle/Resources/public/js/jquery-modal/jquery.modal.min.js'
+       '@AppBundle/Resources/public/js/main.js'
+        %}
+        <script src="{{ asset_url }}"></script>
+    {% endjavascripts %}
 {% endblock %}
 
 {% block header %}

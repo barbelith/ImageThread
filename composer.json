@@ -32,7 +32,8 @@
         "brianium/paratest": "^0.13.2",
         "liip/imagine-bundle": "^1.5",
         "phpoffice/phpexcel": "^1.8",
-        "alchemy/zippy": "^0.3.5"
+        "alchemy/zippy": "^0.3.5",
+        "symfony/assetic-bundle": "^2.8"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",
