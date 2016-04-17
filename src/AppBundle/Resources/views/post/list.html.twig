@@ -1,10 +1,16 @@
 {% extends extends_base ? '@App/base.html.twig' : 'clean.html.twig' %}
 
 {% block body %}
-    <ul class="posts">
+    {% if not app.request.xmlHttpRequest %}
+        <ul class="posts">
+    {% endif %}
+
         {% for post in posts %}
             {% include '@App/Post/_post.html.twig' %}
         {% endfor %}
-    </ul>
+
+     {% if not app.request.xmlHttpRequest %}
+         </ul>
+     {% endif %}
 {% endblock %}
 

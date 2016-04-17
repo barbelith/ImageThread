@@ -11,9 +11,12 @@ class PostRepository extends EntityRepository
         $qb = $this->createQueryBuilder('post');
 
         $qb->addOrderBy('post.id', 'DESC')
-          ->where($qb->expr()->gt('post.id', ':lastitem'))
-          ->setParameter(':lastitem', $lastItem)
           ->setMaxResults($limit);
+
+        if ($lastItem > 0) {
+            $qb->where($qb->expr()->lt('post.id', ':lastitem'))
+              ->setParameter(':lastitem', $lastItem);
+        }
 
         $query = $qb->getQuery();
         $query->useResultCache(true, 3600);

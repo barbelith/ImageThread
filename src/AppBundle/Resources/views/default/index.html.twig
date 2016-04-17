@@ -7,5 +7,11 @@
 
     <div class="row">
         {{ render(controller('AppBundle:Post:list')) }}
+
+        <div class="center">
+            <a id="show_more_posts" href="{{ path('post_list') }}" class="button button-primary" style="display:none">
+                {{ 'show_more'|trans }}
+            </a>
+        </div>
     </div>
 {% endblock %}

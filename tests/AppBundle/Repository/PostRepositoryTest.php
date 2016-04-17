@@ -50,10 +50,10 @@ class PostRepositoryTest extends KernelTestCase
     {
         return array(
           array(10, 0, 10, 10),
-          array(10, 10, 10, 0),
-          array(11, 10, 10, 1),
+          array(10, 1, 10, 0),
+          array(11, 2, 10, 1),
           array(0, 0, 10, 0),
-          array(0, 10, 10, 0),
+          array(0, 1, 10, 0),
           array(10, 0, 5, 5),
         );
     }

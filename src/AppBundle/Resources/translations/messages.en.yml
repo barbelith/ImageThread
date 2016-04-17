@@ -14,3 +14,4 @@ export_posts: Export posts
 export_title: Export all the posts and images
 format_excel: Excel file
 format_csv: Csv file
+show_more: Show more

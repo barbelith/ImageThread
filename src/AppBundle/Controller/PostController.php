@@ -93,7 +93,7 @@ class PostController extends Controller
 
         return [
           'posts' => $posts,
-          'extends_base' => !$this->container->get('request_stack')->getParentRequest()
+          'extends_base' => !$this->container->get('request_stack')->getParentRequest() && !$request->isXmlHttpRequest()
         ];
     }
 
