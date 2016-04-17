@@ -7,6 +7,11 @@ use Doctrine\DBAL\Schema\SchemaException;
 use Doctrine\ORM\Tools\SchemaTool;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * Class WebTestCase
+ * @package AppBundle\Test
+ * @codeCoverageIgnore 
+ */
 class WebTestCase extends \Symfony\Bundle\FrameworkBundle\Test\WebTestCase
 {
     protected function generateSchema(ContainerInterface $container)

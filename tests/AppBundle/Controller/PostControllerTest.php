@@ -14,6 +14,8 @@ class PostControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
+        $this->generateSchema($client->getContainer());
+
         $crawler = $client->request('GET', '/post/create');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
@@ -127,4 +129,77 @@ class PostControllerTest extends WebTestCase
         $this->assertNotNull($crawler->filter('ul.posts')->count());
         $this->assertEquals(5, $crawler->filter('ul.posts li.post')->count());
     }
+
+    public function testExport()
+    {
+        $client = static::createClient();
+
+        $this->generateSchema($client->getContainer());
+
+        $crawler = $client->request('GET', '/post/export');
+
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertNotNull($crawler->selectButton('post_export[export]')->form());
+    }
+
+    /**
+     * @param $expectedResponseClass
+     * @param $exportType
+     * @param $withImages
+     * @dataProvider dataProviderExportDownloadsFile
+     */
+    public function testExportDownloadsFile($expectedResponseClass, $exportType, $withImages)
+    {
+        $client = static::createClient();
+
+        $this->generateSchema($client->getContainer());
+
+        $em = $this->getDoctrine($client->getContainer());
+
+        for ($i = 1; $i <= 5; $i++) {
+            $post = new Post();
+            $post->setTitle('Post #'.$i);
+            $post->setImage($i.'.jpg');
+            $em->persist($post);
+        }
+
+        $em->flush();
+
+        $crawler = $client->request('GET', '/post/export');
+
+        $form = $crawler->selectButton('post_export[export]')->form();
+
+        ob_start();
+
+        $parameters = array(
+          'post_export[export_type]' => $exportType
+        );
+
+        if ($withImages) {
+            $parameters['post_export[export_include_images]'] = 1;
+        }
+
+        $client->submit(
+          $form,
+          $parameters
+        );
+
+        ob_end_clean();
+
+        $this->assertInstanceOf($expectedResponseClass, $client->getResponse());
+    }
+
+    public function dataProviderExportDownloadsFile()
+    {
+        $streamedResponse = 'Symfony\Component\HttpFoundation\StreamedResponse';
+        $binaryResponse = 'Symfony\Component\HttpFoundation\BinaryFileResponse';
+
+        return array(
+            array($streamedResponse, 'csv', false),
+            array($streamedResponse, 'excel', false),
+            array($binaryResponse, 'csv', true),
+            array($binaryResponse, 'excel', true),
+        );
+    }
+
 }

@@ -30,7 +30,9 @@
         "mockery/mockery": "^0.9.4",
         "phpunit/phpunit": "^5.3",
         "brianium/paratest": "^0.13.2",
-        "liip/imagine-bundle": "^1.5"
+        "liip/imagine-bundle": "^1.5",
+        "phpoffice/phpexcel": "^1.8",
+        "alchemy/zippy": "^0.3.5"
     },
     "require-dev": {
         "sensio/generator-bundle": "^3.0",

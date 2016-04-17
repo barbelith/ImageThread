@@ -6,19 +6,15 @@
 
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
-
-        <link rel="stylesheet" href="{{ asset('bundles/app/css/normalize.css') }}" />
-        <link rel="stylesheet" href="{{ asset('bundles/app/css/skeleton.css') }}" />
-        <link rel="stylesheet" href="{{ asset('bundles/app/css/custom.css') }}" />
-
         {% block stylesheets %}{% endblock %}
 
         <link rel="icon" type="image/x-icon" href="{{ asset('favicon.ico') }}" />
     </head>
     <body>
         <div class="container">
+            {% block header %}{% endblock %}
             {% block body %}{% endblock %}
+            {% block footer %}{% endblock %}
         </div>
 
         {% block javascripts %}{% endblock %}

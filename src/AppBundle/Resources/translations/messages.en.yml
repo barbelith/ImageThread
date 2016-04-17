@@ -8,3 +8,9 @@ image_thread: Image Thread
 posts_number: 'Posts: %posts%'
 export: Export
 views_number: 'Views: %views%'
+export_type: Export type
+export_include_images: Include images?
+export_posts: Export posts
+export_title: Export all the posts and images
+format_excel: Excel file
+format_csv: Csv file

@@ -1,0 +1,24 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+    <link href="//fonts.googleapis.com/css?family=Raleway:400,300,600" rel="stylesheet" type="text/css">
+
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/normalize.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/skeleton.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/app/js/jquery-modal/jquery.modal.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('bundles/app/css/custom.css') }}"/>
+{% endblock %}
+
+{% block javascripts %}
+    <script type="text/javascript" src="{{ asset('bundles/app/js/jquery/jquery.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/app/js/jquery-modal/jquery.modal.min.js') }}"></script>
+    <script type="text/javascript" src="{{ asset('bundles/app/js/main.js') }}"></script>
+{% endblock %}
+
+{% block header %}
+    <section class="header">
+        <span class="u-pull-left">{{ 'posts_number'|trans({'%posts%': posts_count() }) }}</span>
+        <span class="u-pull-right">{{ 'views_number'|trans({'%views%': views_count() }) }}</span>
+        <a href="{{ path('post_export') }}" class="export_data ajax-modal-link">{{ 'export'|trans }}</a>
+    </section>
+{% endblock %}
