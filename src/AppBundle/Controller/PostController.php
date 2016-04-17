@@ -135,7 +135,7 @@ class PostController extends Controller
                 if ($includeImages) {
                     $filesystem = new Filesystem();
                     $folderName = 'posts_export_'.time().'_'.mt_rand();
-                    $workDir = sys_get_temp_dir().$folderName;
+                    $workDir = sys_get_temp_dir().DIRECTORY_SEPARATOR.$folderName;
                     $imageManager = $this->container->get('imagethread.image_manager');
 
                     $filesystem->mkdir($workDir);
