@@ -8,6 +8,7 @@ use Alchemy\Zippy\Zippy;
 use AppBundle\Export\CsvExporter;
 use AppBundle\Export\ExcelExporter;
 use AppBundle\Form\Type\PostExportType;
+use Doctrine\Common\Cache\Cache;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use AppBundle\Entity\Post;
 use AppBundle\Form\Type\PostType;
@@ -57,6 +58,10 @@ class PostController extends Controller
                     $this->getDoctrine()->getManager()->flush();
 
                     $this->container->get('imagethread.cache')->delete(self::CACHE_KEY_POST_COUNT);
+
+                    /** @var Cache $cacheDriver */
+                    $cacheDriver = $this->getDoctrine()->getManager()->getConfiguration()->getResultCacheImpl();
+                    $cacheDriver->deleteAll();
 
                     $this->addFlash('success', $this->get('translator')->trans('post_created_successfully'));
                 } catch (\Exception $e) {
