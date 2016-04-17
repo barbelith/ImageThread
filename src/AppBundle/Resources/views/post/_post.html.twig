@@ -4,5 +4,5 @@
     <h2>{{ post.title }}</h2>
     {% endif %}
 
-    <img src="{{ post.image|image_url }}" class="u-max-full-width"/>
+    <img src="{{ post.image|image_url|imagine_filter('post_image') }}" class="u-max-full-width"/>
 </li>

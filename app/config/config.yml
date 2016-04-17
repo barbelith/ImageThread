@@ -66,3 +66,15 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+liip_imagine:
+    resolvers:
+       default:
+          web_path: ~
+
+    filter_sets:
+        cache: ~
+        post_image:
+            quality: 75
+            filters:
+                thumbnail: { size: [1080, 1080], mode: outbound }
