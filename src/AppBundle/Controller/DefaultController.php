@@ -21,7 +21,7 @@ class DefaultController extends Controller
         $this->getDoctrine()->getManager()->getRepository('AppBundle:Statistic')->addView();
         $this->get('imagethread.cache')->delete(self::CACHE_KEY_VIEWS_COUNT);
 
-        return $this->render('@App/default/index.html.twig');
+        return $this->render('@App/Default/index.html.twig');
     }
 
     /**
