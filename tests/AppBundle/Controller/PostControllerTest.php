@@ -25,7 +25,11 @@ class PostControllerTest extends WebTestCase
         $this->assertNotNull($crawler->selectButton('post[save]')->form());
     }
 
-    public function testUploadImage()
+    /**
+     * @param $extension
+     * @dataProvider dataProviderUploadWithExtensions
+     */
+    public function testUploadWithExtensions($extension)
     {
         $client = static::createClient();
 
@@ -36,12 +40,21 @@ class PostControllerTest extends WebTestCase
         $form = $crawler->selectButton('post[save]')->form();
 
         $client->submit($form, array(
-            'post[image_upload]' => new UploadedFile(__DIR__.'/../Util/fixtures/image.png', 'image.png')
+          'post[image_upload]' => new UploadedFile(__DIR__.'/../Util/fixtures/image.'.$extension, 'image.'.$extension),
         ));
 
         $client->followRedirect();
 
         $this->assertEquals(1, $client->getContainer()->get('doctrine')->getManager()->getRepository('AppBundle:Post')->count());
+    }
+
+    public function dataProviderUploadWithExtensions()
+    {
+        return array(
+          array('jpg'),
+          array('png'),
+          array('gif'),
+        );
     }
 
     public function testUploadImageWithNoDatabase()

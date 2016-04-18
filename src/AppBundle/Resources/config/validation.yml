@@ -6,7 +6,7 @@ AppBundle\Entity\Post:
     image_upload:
       - NotBlank: ~
       - Image:
-          mimeTypes: [image/jpg, image/png, image/gif]
+          mimeTypes: [image/jpeg, image/png, image/gif]
           maxSize: 20M
 
 
