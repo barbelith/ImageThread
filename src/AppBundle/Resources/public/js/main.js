@@ -43,13 +43,17 @@ function enableInfiniteScroll() {
             var posts = $('ul.posts');
             
             if (!posts.data('loading')) {
+                posts.data('loading', true);
+
                 var url = $('#show_more_posts').attr('href') + '?last_item=' + posts.find('li:last-child').data('id');
 
                 $.ajax({
                     url: url,
                     success: function(data) {
-                        console.log(data);
                         posts.append(data);
+                    },
+                    complete: function () {
+                        posts.data('loading', false);
                     }
                 })
             }
